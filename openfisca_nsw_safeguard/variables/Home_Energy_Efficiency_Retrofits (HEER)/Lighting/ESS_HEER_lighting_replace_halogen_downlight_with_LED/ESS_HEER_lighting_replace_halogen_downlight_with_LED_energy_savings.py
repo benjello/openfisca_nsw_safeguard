@@ -44,16 +44,19 @@ class ESS_HEER_lighting_replace_halogen_downlight_with_LED_residential_savings_f
     def formula(buildings, period, parameters):
         existing_lamp_type = buildings('ESS_HEER_lighting_existing_lamp_type', period)
         new_lamp_type = buildings('ESS_HEER_lighting_new_lamp_type', period)
-        EquipmentClass = existing_lamp_type.possible_values
-        NewLighting_EquipmentClass = new_lamp_type.possible_values
+
+        from openfisca_nsw_safeguard.variables.ESS_lighting_common_variables import LightingEquipmentClass
+
+        # ExistingLighting_EquipmentClass = existing_lamp_type.possible_values
+        # NewLighting_EquipmentClass = new_lamp_type.possible_values
 
         is_eligible_existing_lamp = (
-                (existing_lamp_type == EquipmentClass.tungsten_halogen_ELV) +
-                (existing_lamp_type == EquipmentClass.infrared_coated_ELV) +
-                (existing_lamp_type == EquipmentClass.tungsten_halogen_240V)
-                                )
+                (existing_lamp_type == LightingEquipmentClass.tungsten_halogen_ELV) +
+                (existing_lamp_type == LightingEquipmentClass.infrared_coated_ELV) +
+                (existing_lamp_type == LightingEquipmentClass.tungsten_halogen_240V)
+                )
 
-        existing_lamp_type = np.where(is_eligible_existing_lamp, 
+        existing_lamp_type = np.where(is_eligible_existing_lamp,
                 existing_lamp_type,
                 (EquipmentClass.is_not_eligible)
                 )
@@ -66,13 +69,13 @@ class ESS_HEER_lighting_replace_halogen_downlight_with_LED_residential_savings_f
         # in the rules
 
         is_eligible_new_lamp = (
-                (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_only_ELV) +
-                (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_and_driver) +
-                (new_lamp_type == NewLighting_EquipmentClass.LED_luminaire_recessed) +
-                (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_only_240V_self_ballasted) 
+                (new_lamp_type == LightingEquipmentClass.LED_lamp_only_ELV) +
+                (new_lamp_type == LightingEquipmentClass.LED_lamp_and_driver) +
+                (new_lamp_type == LightingEquipmentClass.LED_luminaire_recessed) +
+                (new_lamp_type == LightingEquipmentClass.LED_lamp_only_240V_self_ballasted)
         )
 
-        new_lamp_type = np.where(is_eligible_new_lamp, 
+        new_lamp_type = np.where(is_eligible_new_lamp,
                 new_lamp_type,
                 (EquipmentClass.is_not_eligible)
                 )
@@ -123,7 +126,7 @@ class ESS_HEER_lighting_replace_halogen_downlight_with_LED_small_business_saving
                 (existing_lamp_type == EquipmentClass.tungsten_halogen_240V)
                                 )
 
-        existing_lamp_type = np.where(is_eligible_existing_lamp, 
+        existing_lamp_type = np.where(is_eligible_existing_lamp,
                 existing_lamp_type,
                 (EquipmentClass.is_not_eligible)
                 )
@@ -139,10 +142,10 @@ class ESS_HEER_lighting_replace_halogen_downlight_with_LED_small_business_saving
                 (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_only_ELV) +
                 (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_and_driver) +
                 (new_lamp_type == NewLighting_EquipmentClass.LED_luminaire_recessed) +
-                (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_only_240V_self_ballasted) 
+                (new_lamp_type == NewLighting_EquipmentClass.LED_lamp_only_240V_self_ballasted)
         )
 
-        new_lamp_type = np.where(is_eligible_new_lamp, 
+        new_lamp_type = np.where(is_eligible_new_lamp,
                 new_lamp_type,
                 (EquipmentClass.is_not_eligible)
                 )
